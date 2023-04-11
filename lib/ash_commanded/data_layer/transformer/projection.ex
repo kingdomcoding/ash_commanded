@@ -86,7 +86,7 @@ defmodule AshCommanded.DataLayer.Transformer.Projection do
           def handle(@match = event, _) do
             struct(@projection.model, %{id: event.id})
             |> Ash.Changeset.for_update(@action.name, Map.from_struct(event))
-            |> @api.update()
+            |> @api.update(return_notifications?: true)
 
             :ok
           end
