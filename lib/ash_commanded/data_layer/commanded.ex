@@ -29,7 +29,7 @@ defmodule AshCommanded.DataLayer.Commanded do
   def can?(_, :limit), do: false
   def can?(_, :offset), do: false
   def can?(_, :boolean_filter), do: false
-  def can?(_, :transact), do: true
+  def can?(_, :transact), do: false
   def can?(_, {:filter_expr, _}), do: false
   def can?(_, :nested_expressions), do: false
   def can?(_, {:sort, _}), do: false
@@ -38,11 +38,6 @@ defmodule AshCommanded.DataLayer.Commanded do
   @impl true
   def in_transaction?(_resource) do
     true
-  end
-
-  @impl true
-  def rollback(_resource, _error_term) do
-    
   end
 
   @impl true
