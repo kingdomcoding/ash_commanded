@@ -84,20 +84,28 @@ defmodule AshCommanded.DataLayer.Transformer.Projection do
 
         :update ->
           def handle(@match = event, _) do
-            struct(@projection.model, %{id: event.id})
-            |> Ash.Changeset.for_update(@action.name, Map.from_struct(event))
-            |> @api.update()
+            case struct(@projection.model, %{id: event.id})
+                 |> Ash.Changeset.for_update(@action.name, Map.from_struct(event))
+                 |> @api.update() do
+                  {:ok, _} ->
+                    :ok
 
-            :ok
+                  error ->
+                    error
+            end
           end
 
         :destroy ->
           def handle(@match = event, _) do
-            struct(@projection.model, %{id: event.id})
-            |> Ash.Changeset.for_destroy(@action.name)
-            |> @api.destroy()
+            case struct(@projection.model, %{id: event.id})
+                 |> Ash.Changeset.for_destroy(@action.name)
+                 |> @api.destroy() do
+                  {:ok, _} ->
+                    :ok
 
-            :ok
+                  error ->
+                    error
+            end
           end
       end
     end
